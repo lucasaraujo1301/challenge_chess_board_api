@@ -17,7 +17,7 @@ class Color(models.Model):
 
 class Piece(models.Model):
     name = models.CharField(max_length=6, choices=PIECES_CHOICES)
-    color = models.ForeignKey(Color, on_delete=models.PROTECT)
+    color = models.ManyToManyField(Color)
 
     def __str__(self):
         return f'{self.name} - {self.color.name}'

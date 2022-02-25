@@ -1,14 +1,10 @@
 from django.db import migrations
-from pieces.models import Color, Piece
+from pieces.models import Piece
 
 
 def adding_pieces(apps, schema_editor):
     pieces_name = ['pawn', 'tower', 'bishop', 'queen', 'king', 'knight']
-    pieces_object_list = []
-    colors = Color.objects.all()
-
-    for piece in pieces_name:
-        pieces_object_list.extend([Piece(name=piece, color=color) for color in colors])
+    pieces_object_list = [Piece(name=piece) for piece in pieces_name]
 
     Piece.objects.bulk_create(pieces_object_list)
 
