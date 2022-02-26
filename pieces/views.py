@@ -14,7 +14,7 @@ class PieceViewSet(viewsets.ReadOnlyModelViewSet):
 
     def list(self, request, *args, **kwargs):
         """
-        A function that receives name or color as a url parameter and return a list of piece id
+        A function that receives name or color as a query string parameter and return a list of piece id
 
         color: string
         name: string

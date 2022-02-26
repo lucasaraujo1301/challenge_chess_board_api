@@ -9,8 +9,6 @@ class ColoSerializer(serializers.ModelSerializer):
 
 
 class PieceSerializer(serializers.ModelSerializer):
-    color = ColoSerializer(many=True)
-
     class Meta:
         model = Piece
-        fields = ['id', 'name', 'color']
+        fields = ['id']
