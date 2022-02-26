@@ -1,8 +1,10 @@
+from pieces.helpers import Movements
 from pieces.models import Color, Piece
 from pieces.serializers import PieceSerializer
 
 from rest_framework import viewsets
 from rest_framework.response import Response
+from rest_framework.decorators import action
 
 
 class PieceViewSet(viewsets.ReadOnlyModelViewSet):
@@ -42,6 +44,28 @@ class PieceViewSet(viewsets.ReadOnlyModelViewSet):
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
         except Exception as e:
-            print(e)
+            return Response({'status': 500, 'message': str(e)})
 
-            return Response({'status': 500, 'message': 'Something went wrong'})
+    @action(methods=['get'], detail=False, url_path='(?P<pk>[^/.]+)/position/(?P<position>[^/.]+)')
+    def position(self, request, pk=None, position=None):
+        """
+        A function that receive pk and position from url and return a list of movements within 2 turns
+
+        pk: number
+        position: string - This variable has to be in Algebraic Notation to work, example: 'g5' or 'G5'
+        """
+        try:
+            piece = Piece.objects.get(pk=pk)
+
+            moviments = Movements(piece, position)
+
+            context = {}
+
+            if piece.name == 'knight':
+                context['possible_movements'] = moviments.calculate_knight_moves()
+            else:
+                context['message'] = 'Please, insert the Knight piece Id'
+
+            return Response(context)
+        except Exception as e:
+            return Response({'status': 500, 'message': str(e)})
