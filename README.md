@@ -56,5 +56,10 @@ Return the piece id, using the name or color as parameter to filter
 ```
 
 ```
-GET api/pieces/id/move
+GET api/pieces/:id/position/:position
+
+id: the id that return from the url above
+position: the actual position from the piece in the chessboard, using the Algebraic Notetion, ex: G5, can be using lower or uppercase
+
+Return all the piece position within 2 turns.
 ```
