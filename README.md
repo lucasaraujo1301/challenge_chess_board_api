@@ -49,4 +49,12 @@ python manage.py runserver
 
 ### The routes its used
 
-GET api/pieces?
+```
+GET api/pieces?name=&color=
+
+Return the piece id, using the name or color as parameter to filter
+```
+
+```
+GET api/pieces/id/move
+```
