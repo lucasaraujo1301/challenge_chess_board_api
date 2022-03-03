@@ -28,8 +28,8 @@ class Movements:
         return "".join((chr(x_axis + 96).upper(), str(y_axis)))
 
     @staticmethod
-    def concat_first_and_second_turn(first_turn, second_turn):
-        return f'{first_turn} -> {second_turn}'
+    def concat_first_and_second_turn(first_turn, second_turn_movements):
+        return f"{first_turn} -> {', '.join(second_turn_movements)}"
 
     def get_first_turn_movements(self, algebraic_notation, possible_movements):
         first_turn_movements = []
@@ -53,23 +53,25 @@ class Movements:
         second_turn_movements = []
 
         for movement_1_turn in self.first_turn_movements:
-            for possible_movement in possible_movements:
-                x_1_turn, y_1_turn = movement_1_turn
-                w, z = possible_movement
+            x_1_turn, y_1_turn = movement_1_turn
+            new_movements_2_turn_string = []
 
-                movements_1_turn_knight_string = self.number_to_algebraic_notation(x_1_turn, y_1_turn)
+            movements_1_turn_knight_string = self.number_to_algebraic_notation(x_1_turn, y_1_turn)
+
+            for possible_movement in possible_movements:
+
+                w, z = possible_movement
 
                 if 1 <= x_1_turn + w <= 8 and 1 <= y_1_turn + z <= 8:
                     new_movements_2_turn = x_1_turn + w, y_1_turn + z
                     x_2_turn, y_2_turn = new_movements_2_turn
 
-                    # Transforming tuple into string with letter on X axis and concatenate the movements from
-                    # first turn and appending on all_movements to return
-                    new_movements_2_turn_string = self.number_to_algebraic_notation(x_2_turn, y_2_turn)
-                    new_movements_2_turn_string = self.concat_first_and_second_turn(movements_1_turn_knight_string,
-                                                                                    new_movements_2_turn_string)
+                    new_movements_2_turn_string.append(self.number_to_algebraic_notation(x_2_turn, y_2_turn))
 
-                    second_turn_movements.append(new_movements_2_turn_string)
+            new_movements_2_turn_string = self.concat_first_and_second_turn(movements_1_turn_knight_string,
+                                                                            new_movements_2_turn_string)
+
+            second_turn_movements.append(new_movements_2_turn_string)
 
         return second_turn_movements
 
